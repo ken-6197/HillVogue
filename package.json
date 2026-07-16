@@ -1,7 +1,8 @@
 {
-  "name": "bloom-ecommerce-template",
-  "version": "0.1.0",
+  "name": "hillvogue",
+  "version": "1.0.0",
   "private": true,
+  "description": "HillVogue - Where hill heritage meets modern fashion",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
