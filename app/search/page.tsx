@@ -4,12 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import products from "@/data/products.json";
 import ProductCard from "@/components/home/ProductCard";
 import Link from "next/link";
 
-// Define Product type
 interface Product {
   id: number;
   name: string;
@@ -18,7 +17,8 @@ interface Product {
   description: string;
 }
 
-export default function SearchPage() {
+// This is the component that uses useSearchParams()
+function SearchContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
@@ -138,5 +138,14 @@ export default function SearchPage() {
         )}
       </div>
     </div>
+  );
+}
+
+// This is the main page component that wraps SearchContent in a Suspense boundary
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <SearchContent />
+    </Suspense>
   );
 }
