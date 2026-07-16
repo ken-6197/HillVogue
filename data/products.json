@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "name": "Rongmei Shawl",
+    "price": 1999,
+    "image": "/images/rongmei Shawl.jpg",
+    "description": "A handwoven Rongmei shawl, adorned with traditional geometric patterns"
+  },
+  {
+    "id": 2,
+    "name": "Tangkhul Necklace",
+    "price": 999,
+    "image": "/images/Costume specific to Grihang given to Yorla(s) on special occasion.jpg",
+    "description": "Costume specific to Grihang given to Yorla(s) on special occasion"
+  },
+  {
+    "id": 3,
+    "name": "Rongmei Pheisuai",
+    "price": 2499,
+    "image": "/images/Zeliangrong traditional attire.jpg",
+    "description": "Traditional Rongmei Pheisuai worn by grown-up women"
+  },
+  {
+    "id": 4,
+    "name": "Liangmei Shield & Spear",
+    "price": 4999,
+    "image": "/images/Liangmai Naga traditional Shield and Spears.jpg",
+    "description": "Handcrafted Liangmei shield and spear, meticulously made with traditional materials and techniques passed down through generations."
+  },
+  {
+    "id": 5,
+    "name": "Rongmei Necklace",
+    "price": 3999,
+    "image": "/images/Rongmei-orange-necklace.jpg",
+    "description": "Add a touch of tribal elegance with this beautifully crafted Rongmei necklace, perfect for both traditional and contemporary outfits."
+  },
+  {
+    "id": 6,
+    "name": "Ao Naga Necklace",
+    "price": 799,
+    "image": "/images/Ao-necklace-tie.jpg",
+    "description": "Add a touch of Naga tribal elegance with this beautifully crafted Ao Naga necklace with tie, perfect for both traditional and contemporary outfits."
+  },
+  {
+    "id": 7,
+    "name": "Zeme full traditional attire",
+    "price": 4999,
+    "image": "/images/Zeme naga traditional dress.jpg",
+    "description": "Authentic Zeme Naga traditional dress, handwoven in Nagaland with traditional patterns and vibrant tribal colors."
+  },
+  {
+    "id": 8,
+    "name": "Tangkhul Attire Collection",
+    "price": 8999,
+    "image": "/images/Tangkhul Naga Costume.jpg",
+    "description": "A stunning collection of traditional Tangkhul attire, handwoven with intricate patterns and vibrant colors, reflecting the rich cultural heritage of Manipur's Tangkhul tribe."
+  },
+  {
+    "id": 9,
+    "name": "Meitei Phanek",
+    "price": 5999,
+    "image": "/images/meitei women.jpg",
+    "description": "Authentic Meitei Phanek, handwoven in Manipur with traditional patterns."
+  },
+  {
+    "id": 10,
+    "name": "Poumai Basket",
+    "price": 1599,
+    "image": "/images/poumai basket.jpg",
+    "description": "Authentic Poumai basket, handwoven in Manipur with natural fibers and traditional tribal patterns."
+  }
+]
