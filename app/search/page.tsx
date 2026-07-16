@@ -9,7 +9,7 @@ import products from "@/data/products.json";
 import ProductCard from "@/components/home/ProductCard";
 import Link from "next/link";
 
-// Define the Product type
+// Define Product type
 interface Product {
   id: number;
   name: string;
