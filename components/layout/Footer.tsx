@@ -28,35 +28,34 @@ export default function Footer() {
       title: "Customer Care",
       links: [
         { href: "/contact", label: "Contact Us" },
-        { href: "/", label: "Shipping Info" },
-        { href: "/", label: "Returns & Exchanges" },
+        { href: "/shipping", label: "Shipping Info" },
+        { href: "/returns", label: "Returns & Exchanges" },
       ],
     },
     {
       title: "Legal",
       links: [
-        { href: "/", label: "Privacy Policy" },
-        { href: "/", label: "Terms & Conditions" },
+        { href: "/privacy", label: "Privacy Policy" },
+        { href: "/terms", label: "Terms & Conditions" },
       ],
     },
   ];
 
   const socialLinks = [
-    { href: "#", icon: Facebook, label: "Facebook" },
-    { href: "#", icon: Twitter, label: "Twitter" },
-    { href: "#", icon: Instagram, label: "Instagram" },
+    { href: "https://facebook.com/hillvogue", icon: Facebook, label: "Facebook" },
+    { href: "https://twitter.com/hillvogue", icon: Twitter, label: "Twitter" },
+    { href: "https://instagram.com/hillvogue", icon: Instagram, label: "Instagram" },
   ];
 
   return (
     <footer className="bg-background border-t border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Newsletter Section REMOVED */}
-
         <div className="py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+            {/* Brand Section */}
             <div className="lg:col-span-2">
               <Link
-                className="flex items-center gap-2 text-2xl tracking-tight text-gray-900 hover:text-gray-700 transition-colors"
+                className="inline-flex items-center gap-2 text-2xl tracking-tight text-gray-900 hover:text-gray-700 transition-colors"
                 href="/"
                 aria-label="HillVogue Home"
               >
@@ -71,7 +70,7 @@ export default function Footer() {
                   Hill<span className="text-primary">Vogue</span>
                 </span>
               </Link>
-              <p className="text-muted-foreground mb-6 max-w-sm">
+              <p className="text-muted-foreground mt-4 mb-6 max-w-sm leading-relaxed">
                 HillVogue brings you premium tribal fashion from the heart of Manipur. 
                 Where hill heritage meets modern style. Each piece tells a story of 
                 tradition and elegance.
@@ -79,15 +78,15 @@ export default function Footer() {
 
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <MapPin className="h-4 w-4 text-primary" />
+                  <MapPin className="h-4 w-4 text-primary shrink-0" />
                   <span>Imphal, Manipur, India</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <Phone className="h-4 w-4 text-primary" />
+                  <Phone className="h-4 w-4 text-primary shrink-0" />
                   <span>+91 9233661750</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                  <Mail className="h-4 w-4 text-primary" />
+                  <Mail className="h-4 w-4 text-primary shrink-0" />
                   <span>hello@hillvogue.com</span>
                 </div>
               </div>
@@ -99,9 +98,9 @@ export default function Footer() {
                     variant="ghost"
                     size="icon"
                     asChild
-                    className="h-10 w-10 rounded-full bg-muted hover:bg-primary hover:text-primary-foreground transition-colors"
+                    className="h-10 w-10 rounded-full bg-muted/60 hover:bg-primary hover:text-primary-foreground transition-all duration-300"
                   >
-                    <Link href={href} aria-label={label}>
+                    <Link href={href} aria-label={label} target="_blank" rel="noopener noreferrer">
                       <Icon className="h-4 w-4" />
                     </Link>
                   </Button>
@@ -109,6 +108,7 @@ export default function Footer() {
               </div>
             </div>
 
+            {/* Footer Sections */}
             {footerSections.map((section, index) => (
               <div
                 key={section.title}

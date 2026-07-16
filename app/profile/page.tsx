@@ -20,6 +20,7 @@ import {
   Heart,
   Shield,
   Crown,
+  Truck,
 } from "lucide-react";
 
 export default function ProfilePage() {
@@ -234,6 +235,12 @@ export default function ProfilePage() {
             <Separator />
 
             <div className="flex flex-col sm:flex-row gap-3 justify-end">
+              <Button asChild variant="outline" className="w-full sm:w-auto">
+                <Link href="/track">
+                  <Truck className="h-4 w-4 mr-2" />
+                  Track Order
+                </Link>
+              </Button>
               <Button
                 variant="destructive"
                 onClick={handleLogout}

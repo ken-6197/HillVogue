@@ -9,11 +9,9 @@ import {
   Globe,
   Shield,
   Award,
-  Truck,
   Leaf,
   Star,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function AboutPage() {
@@ -22,25 +20,25 @@ export default function AboutPage() {
       icon: Heart,
       title: "Handcrafted with Love",
       description:
-        "Every product is handcrafted by skilled artisans from the hill tribes of Northeast India, preserving centuries-old traditions.",
+        "Every piece is handcrafted by skilled artisans from the hill tribes of Northeast India, preserving centuries-old traditions.",
     },
     {
       icon: Users,
       title: "Supporting Artisans",
       description:
-        "We work directly with tribal communities, ensuring fair wages and sustainable livelihoods for indigenous craftspeople.",
+        "We work directly with tribal communities across Manipur, ensuring fair wages and sustainable livelihoods for indigenous craftspeople.",
     },
     {
       icon: Globe,
       title: "Cultural Preservation",
       description:
-        "We are dedicated to preserving and promoting the rich cultural heritage of Manipur's hill tribes through our products.",
+        "We are dedicated to preserving and promoting the rich cultural heritage of Manipur's collective hill tribes through fashion.",
     },
     {
       icon: Shield,
       title: "Authentic & Genuine",
       description:
-        "Every product is 100% authentic, sourced directly from tribal artisans and communities in Northeast India.",
+        "Every product is 100% authentic, sourced directly from tribal artisans and communities across Northeast India.",
     },
     {
       icon: Leaf,
@@ -58,8 +56,8 @@ export default function AboutPage() {
 
   const milestones = [
     { year: "2024", title: "HillVogue Founded", description: "Born from a vision to celebrate Manipur's tribal fashion heritage" },
-    { year: "2025", title: "First Artisan Partnership", description: "Collaborated with Rongmei and Liangmei artisans" },
-    { year: "2026", title: "Expanded Collection", description: "Added products from Tangkhul, Zeme, and Poumai tribes" },
+    { year: "2025", title: "First Artisan Partnership", description: "Collaborated with tribal artisans across Manipur" },
+    { year: "2026", title: "Expanded Collection", description: "Added jewelry, accessories, and contemporary tribal fashion" },
   ];
 
   return (
@@ -74,9 +72,7 @@ export default function AboutPage() {
               <span className="text-primary">Modern Vogue</span>
             </h1>
             <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed">
-              HillVogue is a celebration of the rich cultural diversity of Manipur's hill tribes. 
-              We bring you premium, handcrafted fashion that tells stories of tradition, 
-              heritage, and the skilled hands of indigenous artisans.
+              HillVogue brings you the beauty of Manipur's hill tribes through thoughtfully crafted fashion, jewelry, and accessories. Each piece is made by hand, rooted in tradition, and designed for the modern wardrobe.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/shop">
@@ -108,13 +104,13 @@ export default function AboutPage() {
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 HillVogue was founded with a simple yet powerful mission: to connect the world 
-                with the authentic tribal fashion of Manipur's hill communities. We believe that 
+                with the authentic tribal fashion of Manipur's tribe & communities. We believe that 
                 every handcrafted piece carries a story worth sharing.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                By creating a platform for tribal artisans, we aim to preserve traditional 
-                craftsmanship, support indigenous communities, and share the beauty of 
-                Northeast India's rich cultural tapestry with the fashion world.
+                From traditional attire to contemporary jewelry and accessories, 
+                we create a platform for tribal artisans to showcase their artistry 
+                while preserving the rich cultural tapestry of Northeast India.
               </p>
               <div className="mt-6 flex flex-wrap gap-6">
                 <div>
@@ -136,7 +132,7 @@ export default function AboutPage() {
                 <div className="text-center">
                   <Heart className="h-24 w-24 text-primary/40 mx-auto mb-4" />
                   <p className="text-lg font-semibold text-foreground">"Crafted by Tradition, Designed for Vogue"</p>
-                  <p className="text-sm text-muted-foreground">— HillVogue Philosophy</p>
+                  <p className="text-sm text-muted-foreground">— Team HillVogue</p>
                 </div>
               </div>
             </div>
@@ -218,43 +214,6 @@ export default function AboutPage() {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Tribes We Work With */}
-      <section className="py-16 lg:py-20 bg-muted/30">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <Badge variant="outline" className="mb-4">Our Partners</Badge>
-            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
-              Tribes We <span className="text-primary">Work With</span>
-            </h2>
-            <p className="text-muted-foreground">
-              We collaborate with artisans from these tribal communities across Northeast India.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {[
-              "Rongmei",
-              "Liangmei",
-              "Tangkhul",
-              "Zeme",
-              "Poumai",
-              "Ao Naga",
-              "Meitei",
-              "Thangal",
-            ].map((tribe) => (
-              <Card key={tribe} className="border-primary/10 hover:border-primary/30 transition-colors">
-                <CardContent className="p-4 text-center">
-                  <div className="p-2 bg-primary/5 rounded-full w-fit mx-auto mb-2">
-                    <Star className="h-4 w-4 text-primary" />
-                  </div>
-                  <p className="font-medium text-foreground">{tribe}</p>
-                </CardContent>
-              </Card>
-            ))}
           </div>
         </div>
       </section>
