@@ -34,12 +34,10 @@ interface AppUser {
   email: string;
   user_metadata: {
     full_name?: string;
+    role?: string;
   };
   created_at: string;
 }
-
-// Admin emails - only these users can access
-const ADMIN_EMAILS = ["panmeikenneth@gmail.com"];
 
 type TabType = "products" | "orders" | "users";
 
@@ -64,18 +62,26 @@ export default function AdminPage() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        router.push("/login");
-        setCheckingAuth(false);
-        return;
-      }
-      
-      if (user.email && ADMIN_EMAILS.includes(user.email)) {
-        setIsAdmin(true);
-        await Promise.all([fetchProducts(), fetchOrders(), fetchUsers()]);
-      } else {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (!user) {
+          router.push("/login");
+          setCheckingAuth(false);
+          return;
+        }
+        
+        // Check if user has admin role in metadata
+        const isAdmin = user.user_metadata?.role === 'admin';
+        
+        if (isAdmin) {
+          setIsAdmin(true);
+          await Promise.all([fetchProducts(), fetchOrders(), fetchUsers()]);
+        } else {
+          router.push("/");
+        }
+      } catch (error) {
+        console.error("Auth error:", error);
         router.push("/");
       }
       
@@ -85,16 +91,24 @@ export default function AdminPage() {
   }, [router]);
 
   const fetchProducts = async () => {
-    const { data } = await supabase.from("products").select("*").order("id");
-    setProducts(data || []);
+    try {
+      const { data } = await supabase.from("products").select("*").order("id");
+      setProducts(data || []);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
   };
 
   const fetchOrders = async () => {
-    const { data } = await supabase
-      .from("orders")
-      .select("*")
-      .order("created_at", { ascending: false });
-    setOrders(data || []);
+    try {
+      const { data } = await supabase
+        .from("orders")
+        .select("*")
+        .order("created_at", { ascending: false });
+      setOrders(data || []);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
   };
 
   const fetchUsers = async () => {
@@ -109,6 +123,7 @@ export default function AdminPage() {
         email: user.email || "No email",
         user_metadata: {
           full_name: user.user_metadata?.full_name || "",
+          role: user.user_metadata?.role || "",
         },
         created_at: user.created_at,
       })) || [];
@@ -506,6 +521,7 @@ export default function AdminPage() {
                         <th className="text-left py-3 px-2">#</th>
                         <th className="text-left py-3 px-2">Name</th>
                         <th className="text-left py-3 px-2">Email</th>
+                        <th className="text-left py-3 px-2">Role</th>
                         <th className="text-left py-3 px-2">Joined</th>
                       </tr>
                     </thead>
@@ -517,6 +533,17 @@ export default function AdminPage() {
                             {user.user_metadata?.full_name || "N/A"}
                           </td>
                           <td className="py-3 px-2">{user.email}</td>
+                          <td className="py-3 px-2">
+                            {user.user_metadata?.role === "admin" ? (
+                              <span className="px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                Admin
+                              </span>
+                            ) : (
+                              <span className="px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                                User
+                              </span>
+                            )}
+                          </td>
                           <td className="py-3 px-2 text-muted-foreground">
                             {new Date(user.created_at).toLocaleDateString()}
                           </td>

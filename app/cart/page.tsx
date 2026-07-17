@@ -13,9 +13,9 @@ import { useRouter } from "next/navigation";
 export default function Cart() {
   const router = useRouter();
   const { cart } = useCart();
-  const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const itemCount = cart?.reduce((sum, item) => sum + item.quantity, 0) || 0;
 
-  if (cart.length === 0) {
+  if (!cart || cart.length === 0) {
     return <EmptyCart />;
   }
 
@@ -51,7 +51,6 @@ export default function Cart() {
         </div>
       </div>
 
-      {/* Proceed to Checkout Button */}
       <div className="mt-8 flex justify-end">
         <Button
           size="lg"

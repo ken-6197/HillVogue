@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Check, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { Check, Eye, EyeOff, Lock, Mail, Phone, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -15,6 +15,7 @@ export default function SignUpPage() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -46,6 +47,7 @@ export default function SignUpPage() {
       options: {
         data: {
           full_name: name,
+          phone: phone,
         },
       },
     });
@@ -61,6 +63,7 @@ export default function SignUpPage() {
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("userEmail", data.user.email || "");
       localStorage.setItem("userName", name);
+      localStorage.setItem("userPhone", phone);
       setTimeout(() => {
         router.push("/");
       }, 1500);
@@ -113,7 +116,7 @@ export default function SignUpPage() {
                 <Input
                   id="name"
                   type="text"
-                  placeholder="Enter your name"
+                  placeholder=""
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="pl-12 py-6 text-base"
@@ -131,11 +134,28 @@ export default function SignUpPage() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder=""
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-12 py-6 text-base"
                   required
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="phone" className="text-sm font-medium">
+                Phone Number
+              </Label>
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder=""
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="pl-12 py-6 text-base"
                 />
               </div>
             </div>
@@ -149,7 +169,7 @@ export default function SignUpPage() {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Min 6 characters"
+                  placeholder=""
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-12 pr-12 py-6 text-base"
@@ -178,7 +198,7 @@ export default function SignUpPage() {
                 <Input
                   id="confirmPassword"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Confirm your password"
+                  placeholder=""
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="pl-12 py-6 text-base"

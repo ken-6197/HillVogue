@@ -69,8 +69,20 @@ export default function Product() {
   };
 
   const handleBuyNow = () => {
-    handleAddToCart();
-    setTimeout(() => router.push("/cart"), 500);
+    // Store the product in sessionStorage for the buy now flow
+    const buyNowItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      quantity: quantity,
+      total: product.price * quantity,
+    };
+    
+    sessionStorage.setItem('buyNowItem', JSON.stringify(buyNowItem));
+    
+    // Go directly to buy now checkout (cart untouched)
+    router.push("/buy-now-checkout");
   };
 
   const handleQuantityChange = (type: "increment" | "decrement") => {
