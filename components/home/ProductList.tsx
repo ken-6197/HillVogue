@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
+import StaggerContainer from "@/components/StaggerContainer";
 
 interface Product {
   id: number;
@@ -64,7 +65,7 @@ export default function ProductList() {
   }
 
   return (
-    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
+    <StaggerContainer className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
       {products.length > 0 ? (
         products.map((product) => (
           <ProductCard key={product.id} product={product} />
@@ -80,6 +81,6 @@ export default function ProductList() {
           </p>
         </div>
       )}
-    </div>
+    </StaggerContainer>
   );
 }

@@ -9,19 +9,19 @@
   --card-foreground: oklch(0.2686 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.2686 0 0);
-  --primary: oklch(0.62 0.18 45);  /* Warm Terracotta/Amber */
+  --primary: oklch(0.62 0.18 45);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.967 0.0029 264.5419);
   --secondary-foreground: oklch(0.4461 0.0263 256.8018);
   --muted: oklch(0.9846 0.0017 247.8389);
   --muted-foreground: oklch(0.551 0.0234 264.3637);
-  --accent: oklch(0.94 0.06 50);  /* Light terracotta accent */
+  --accent: oklch(0.94 0.06 50);
   --accent-foreground: oklch(0.50 0.16 45);
   --destructive: oklch(0.6368 0.2078 25.3313);
   --destructive-foreground: oklch(1 0 0);
   --border: oklch(0.9276 0.0058 264.5313);
   --input: oklch(0.9276 0.0058 264.5313);
-  --ring: oklch(0.62 0.18 45);  /* Matches primary */
+  --ring: oklch(0.62 0.18 45);
   --chart-1: oklch(0.62 0.18 45);
   --chart-2: oklch(0.70 0.15 60);
   --chart-3: oklch(0.55 0.16 35);
@@ -63,7 +63,7 @@
   --card-foreground: oklch(0.9219 0 0);
   --popover: oklch(0.2686 0 0);
   --popover-foreground: oklch(0.9219 0 0);
-  --primary: oklch(0.68 0.18 45);  /* Slightly brighter for dark mode */
+  --primary: oklch(0.68 0.18 45);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.2686 0 0);
   --secondary-foreground: oklch(0.9219 0 0);
@@ -159,6 +159,75 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
+}
+
+/* ===== SMOOTH ANIMATIONS ===== */
+@keyframes fade-up-smooth {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-smooth {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in-smooth {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-in-smooth {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ===== UTILITY CLASSES ===== */
+@layer utilities {
+  .animate-fade-up-smooth {
+    animation: fade-up-smooth 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-fade-in-smooth {
+    animation: fade-in-smooth 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-scale-in-smooth {
+    animation: scale-in-smooth 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-slide-in-smooth {
+    animation: slide-in-smooth 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  /* Delays */
+  .delay-100 { animation-delay: 0.1s; }
+  .delay-200 { animation-delay: 0.2s; }
+  .delay-300 { animation-delay: 0.3s; }
+  .delay-400 { animation-delay: 0.4s; }
+  .delay-500 { animation-delay: 0.5s; }
 }
 
 @layer base {

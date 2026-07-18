@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/context/CartContext";
 import products from "@/data/products.json";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 import {
   Check,
   Heart,
@@ -69,7 +70,6 @@ export default function Product() {
   };
 
   const handleBuyNow = () => {
-    // Store the product in sessionStorage for the buy now flow
     const buyNowItem = {
       id: product.id,
       name: product.name,
@@ -80,8 +80,6 @@ export default function Product() {
     };
     
     sessionStorage.setItem('buyNowItem', JSON.stringify(buyNowItem));
-    
-    // Go directly to buy now checkout (cart untouched)
     router.push("/buy-now-checkout");
   };
 
@@ -93,12 +91,56 @@ export default function Product() {
     }
   };
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
+  const imageVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <ProductBreadcrumb />
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="container mx-auto px-4 sm:px-6 lg:px-8 py-8"
+    >
+      <motion.div variants={itemVariants}>
+        <ProductBreadcrumb />
+      </motion.div>
 
       <div className="grid lg:grid-cols-2 gap-12 mb-16">
-        <div className="space-y-4">
+        {/* Image Section */}
+        <motion.div variants={imageVariants} className="space-y-4">
           <div className="w-full max-w-[500px] mx-auto flex flex-col items-center px-4">
             <div className="rounded-xl shadow-lg overflow-hidden mb-4 w-full">
               <Image
@@ -112,12 +154,14 @@ export default function Product() {
               />
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="space-y-6">
+        {/* Details Section */}
+        <motion.div variants={itemVariants} className="space-y-6">
           <h1 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
             {product.name}
           </h1>
+          
           <div className="flex items-center gap-2 mb-4">
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
@@ -173,77 +217,97 @@ export default function Product() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                size="lg"
-                className={cn(
-                  "flex-1 transition-all duration-300",
-                  justAdded
-                    ? "bg-green-600 text-white hover:bg-green-600"
-                    : "bg-primary text-primary-foreground hover:bg-primary/90"
-                )}
-                onClick={handleAddToCart}
-                disabled={isAdding}
-              >
-                {isAdding ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                    Adding...
-                  </div>
-                ) : justAdded ? (
-                  <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4" />
-                    Added to Cart!
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <ShoppingCart className="h-4 w-4" />
-                    Add to Cart
-                  </div>
-                )}
-              </Button>
-
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={handleBuyNow}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 className="flex-1"
               >
-                Buy Now
-              </Button>
+                <Button
+                  size="lg"
+                  className={cn(
+                    "w-full transition-all duration-300",
+                    justAdded
+                      ? "bg-green-600 text-white hover:bg-green-600"
+                      : "bg-primary text-primary-foreground hover:bg-primary/90"
+                  )}
+                  onClick={handleAddToCart}
+                  disabled={isAdding}
+                >
+                  {isAdding ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                      Adding...
+                    </div>
+                  ) : justAdded ? (
+                    <div className="flex items-center gap-2">
+                      <Check className="h-4 w-4" />
+                      Added to Cart!
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <ShoppingCart className="h-4 w-4" />
+                      Add to Cart
+                    </div>
+                  )}
+                </Button>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex-1"
+              >
+                <Button
+                  size="lg"
+                  variant="outline"
+                  onClick={handleBuyNow}
+                  className="w-full"
+                >
+                  Buy Now
+                </Button>
+              </motion.div>
             </div>
 
             <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsLiked(!isLiked)}
-                className={cn(
-                  "text-muted-foreground hover:text-foreground",
-                  isLiked && "text-destructive"
-                )}
-              >
-                <Heart
-                  className={cn("h-4 w-4 mr-2", isLiked && "fill-current")}
-                />
-                Add to Wishlist
-              </Button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsLiked(!isLiked)}
+                  className={cn(
+                    "text-muted-foreground hover:text-foreground",
+                    isLiked && "text-destructive"
+                  )}
+                >
+                  <Heart
+                    className={cn("h-4 w-4 mr-2", isLiked && "fill-current")}
+                  />
+                  Add to Wishlist
+                </Button>
+              </motion.div>
 
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <Share2 className="h-4 w-4 mr-2" />
-                Share
-              </Button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <Share2 className="h-4 w-4 mr-2" />
+                  Share
+                </Button>
+              </motion.div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      <Features />
+      <motion.div variants={itemVariants}>
+        <Features />
+      </motion.div>
 
-      <RelatedProducts product={product} />
-    </div>
+      <motion.div variants={itemVariants}>
+        <RelatedProducts product={product} />
+      </motion.div>
+    </motion.div>
   );
 }

@@ -20,10 +20,11 @@ export default function ResetPasswordPage() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    // Check if user has a valid session
+    // Check if user has a valid session from the reset link
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
+        // If no session, redirect to login
         router.push("/login");
       }
     };
@@ -48,21 +49,35 @@ export default function ResetPasswordPage() {
       return;
     }
 
-    const { error } = await supabase.auth.updateUser({
-      password: password,
-    });
+    try {
+      // Update the user's password
+      const { data, error } = await supabase.auth.updateUser({
+        password: password,
+      });
 
-    if (error) {
-      setError(error.message);
+      if (error) {
+        console.error("Update error:", error);
+        setError(error.message);
+        setIsLoading(false);
+        return;
+      }
+
+      console.log("Password updated successfully:", data);
+
+      setSuccess(true);
       setIsLoading(false);
-      return;
-    }
 
-    setSuccess(true);
-    setIsLoading(false);
-    setTimeout(() => {
-      router.push("/login");
-    }, 2000);
+      // Sign out and redirect to login after 2 seconds
+      setTimeout(async () => {
+        await supabase.auth.signOut();
+        router.push("/login");
+      }, 2000);
+
+    } catch (err) {
+      console.error("Error:", err);
+      setError("Something went wrong. Please try again.");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -85,7 +100,7 @@ export default function ResetPasswordPage() {
 
             {success && (
               <div className="bg-green-100 text-green-700 text-sm p-3 rounded-lg border border-green-200">
-                ✅ Password updated successfully! Redirecting...
+                ✅ Password updated successfully! Redirecting to login...
               </div>
             )}
 

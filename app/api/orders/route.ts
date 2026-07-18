@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
+import { sendOrderConfirmationEmail } from '@/lib/email';
 
 export async function POST(request: Request) {
   try {
@@ -56,7 +57,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: itemsError.message }, { status: 500 });
     }
 
-    return NextResponse.json({ order, message: 'Order created successfully' });
+    // Send order confirmation email
+    try {
+      await sendOrderConfirmationEmail(order, user, orderItems);
+    } catch (emailError) {
+      console.error('Email sending failed:', emailError);
+      // Continue even if email fails - order is still created
+    }
+
+    return NextResponse.json({ 
+      order, 
+      message: 'Order created successfully. Confirmation email sent.' 
+    });
   } catch (error) {
     console.error('Error:', error);
     return NextResponse.json({ error: 'Something went wrong' }, { status: 500 });

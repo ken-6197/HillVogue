@@ -29,6 +29,13 @@ export default function SignUpPage() {
     setError("");
     setSuccess(false);
 
+    // Validation
+    if (!name || !email || !password) {
+      setError("Please fill in all required fields");
+      setIsLoading(false);
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       setIsLoading(false);
@@ -41,33 +48,44 @@ export default function SignUpPage() {
       return;
     }
 
-    // Save phone to Supabase metadata
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: name,
-          phone: phone || "",  // Save phone even if empty
+    try {
+      console.log("Attempting signup for:", email);
+
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name,
+            phone: phone || "",
+          },
         },
-      },
-    });
+      });
 
-    if (error) {
-      setError(error.message);
-      setIsLoading(false);
-      return;
-    }
+      console.log("Signup response:", { data, error });
 
-    if (data.user) {
-      setSuccess(true);
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userEmail", data.user.email || "");
-      localStorage.setItem("userName", name);
-      localStorage.setItem("userPhone", phone);
-      setTimeout(() => {
-        router.push("/");
-      }, 1500);
+      if (error) {
+        setError(error.message);
+        setIsLoading(false);
+        return;
+      }
+
+      if (data.user) {
+        setSuccess(true);
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userEmail", data.user.email || "");
+        localStorage.setItem("userName", name);
+        localStorage.setItem("userPhone", phone);
+        
+        setTimeout(() => {
+          router.push("/");
+        }, 1500);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      console.error("Signup error:", err);
+      setError("Network error. Please check your connection.");
     }
 
     setIsLoading(false);
@@ -110,14 +128,14 @@ export default function SignUpPage() {
 
             <div className="space-y-2">
               <Label htmlFor="name" className="text-sm font-medium">
-                Full Name
+                Full Name *
               </Label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   id="name"
                   type="text"
-                  placeholder=""
+                  placeholder="Enter your name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   className="pl-12 py-6 text-base"
@@ -128,14 +146,14 @@ export default function SignUpPage() {
 
             <div className="space-y-2">
               <Label htmlFor="email" className="text-sm font-medium">
-                Email Address
+                Email Address *
               </Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   id="email"
                   type="email"
-                  placeholder=""
+                  placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-12 py-6 text-base"
@@ -146,14 +164,14 @@ export default function SignUpPage() {
 
             <div className="space-y-2">
               <Label htmlFor="phone" className="text-sm font-medium">
-                Phone Number
+                Phone Number (Optional)
               </Label>
               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   id="phone"
                   type="tel"
-                  placeholder=""
+                  placeholder="Enter your phone number"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="pl-12 py-6 text-base"
@@ -163,14 +181,14 @@ export default function SignUpPage() {
 
             <div className="space-y-2">
               <Label htmlFor="password" className="text-sm font-medium">
-                Password
+                Password *
               </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder=""
+                  placeholder="Min 6 characters"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-12 pr-12 py-6 text-base"
@@ -192,14 +210,14 @@ export default function SignUpPage() {
 
             <div className="space-y-2">
               <Label htmlFor="confirmPassword" className="text-sm font-medium">
-                Confirm Password
+                Confirm Password *
               </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 <Input
                   id="confirmPassword"
                   type={showPassword ? "text" : "password"}
-                  placeholder=""
+                  placeholder="Confirm your password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="pl-12 py-6 text-base"

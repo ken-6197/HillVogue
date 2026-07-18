@@ -1,17 +1,22 @@
+"use client";
+
 import ProductList from "@/components/home/ProductList";
+import PageTransition from "@/components/PageTransition";
 
 export default function Home() {
   return (
-    <div className="bg-background px-4 py-8 sm:py-12 lg:py-16 lg:px-8 min-h-screen">
-      <div className="text-center mx-auto mb-18 space-y-3">
-        <h1 className="text-primary leading-tighter text-4xl font-semibold tracking-tight text-balance lg:leading-[1.1] lg:font-semibold xl:text-5xl xl:tracking-tighter">
-          Where Hill Heritage Meets <span className="text-primary">Vogue</span>
-        </h1>
-        <p className="text-foreground text-base max-w-3xl mx-auto text-balance sm:text-lg">
-          Discover premium tribal fashion from Manipur's hill tribes. Explore authentic traditional attire, handcrafted jewelry, and accessories that blend heritage with modern style.
-        </p>
+    <PageTransition>
+      <div className="bg-background px-4 py-8 sm:py-12 lg:py-16 lg:px-8 min-h-screen">
+        <div className="text-center mx-auto mb-18 space-y-3">
+          <h1 className="text-primary leading-tighter text-4xl font-semibold tracking-tight text-balance lg:leading-[1.1] lg:font-semibold xl:text-5xl xl:tracking-tighter">
+            Where Hill Heritage Meets <span className="text-primary">Vogue</span>
+          </h1>
+          <p className="text-foreground text-base max-w-3xl mx-auto text-balance sm:text-lg">
+            Discover premium tribal fashion from Manipur's hill tribes. Explore authentic traditional attire, handcrafted jewelry, and accessories that blend heritage with modern style.
+          </p>
+        </div>
+        <ProductList />
       </div>
-      <ProductList />
-    </div>
+    </PageTransition>
   );
 }
