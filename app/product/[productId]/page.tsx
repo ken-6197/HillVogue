@@ -91,7 +91,7 @@ export default function Product() {
     }
   };
 
-  // Animation variants
+  // Animation variants - Fixed easing
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -110,7 +110,7 @@ export default function Product() {
       y: 0,
       transition: {
         duration: 0.5,
-        ease: [0.22, 1, 0.36, 1],
+        ease: "easeOut",
       },
     },
   };
@@ -122,7 +122,7 @@ export default function Product() {
       scale: 1,
       transition: {
         duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
+        ease: "easeOut",
       },
     },
   };
