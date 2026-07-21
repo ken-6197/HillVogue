@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { FaFacebook, FaGoogle } from "react-icons/fa";
+import { FaFacebook, FaGoogle, FaInstagram } from "react-icons/fa";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -22,6 +22,7 @@ export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [socialLoading, setSocialLoading] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,16 +92,47 @@ export default function SignUpPage() {
     setIsLoading(false);
   };
 
-  const handleSocialLogin = async (provider: "google" | "facebook") => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
+  const handleSocialLogin = async (provider: "google" | "facebook" | "instagram") => {
+    setSocialLoading(provider);
+    setError("");
 
-    if (error) {
-      setError(error.message);
+    try {
+      // For Instagram, we need to use the correct provider name
+      const providerName = provider === "instagram" ? "instagram" : provider;
+      
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: providerName,
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+          queryParams: {
+            // For Instagram, we might need additional parameters
+            ...(provider === "instagram" && {
+              // Instagram might need specific scopes
+              scope: 'user_profile,user_media',
+            }),
+          },
+        },
+      });
+
+      console.log(`OAuth response for ${provider}:`, { data, error });
+
+      if (error) {
+        setError(error.message);
+        setSocialLoading(null);
+        return;
+      }
+
+      // The user will be redirected to the provider's login page
+      // After successful login, they'll be redirected back to /auth/callback
+      // The callback will handle the session creation
+      
+      // Store the provider for callback handling
+      localStorage.setItem("oauthProvider", provider);
+      
+    } catch (err) {
+      console.error(`${provider} login error:`, err);
+      setError(`Failed to login with ${provider.charAt(0).toUpperCase() + provider.slice(1)}. Please try again.`);
+      setSocialLoading(null);
     }
   };
 
@@ -265,17 +297,41 @@ export default function SignUpPage() {
           <div className="flex gap-6 justify-center">
             <button
               onClick={() => handleSocialLogin("google")}
-              className="p-3 rounded-full hover:bg-gray-100 transition-colors"
+              disabled={isLoading || socialLoading !== null}
+              className="p-3 rounded-full hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed relative"
               aria-label="Sign up with Google"
             >
-              <FaGoogle className="h-8 w-8 text-[#4285F4]" />
+              {socialLoading === "google" ? (
+                <div className="w-8 h-8 border-2 border-[#4285F4] border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <FaGoogle className="h-8 w-8 text-[#4285F4]" />
+              )}
             </button>
+            
             <button
               onClick={() => handleSocialLogin("facebook")}
-              className="p-3 rounded-full hover:bg-gray-100 transition-colors"
+              disabled={isLoading || socialLoading !== null}
+              className="p-3 rounded-full hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed relative"
               aria-label="Sign up with Facebook"
             >
-              <FaFacebook className="h-8 w-8 text-[#1877F2]" />
+              {socialLoading === "facebook" ? (
+                <div className="w-8 h-8 border-2 border-[#1877F2] border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <FaFacebook className="h-8 w-8 text-[#1877F2]" />
+              )}
+            </button>
+            
+            <button
+              onClick={() => handleSocialLogin("instagram")}
+              disabled={isLoading || socialLoading !== null}
+              className="p-3 rounded-full hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed relative"
+              aria-label="Sign up with Instagram"
+            >
+              {socialLoading === "instagram" ? (
+                <div className="w-8 h-8 border-2 border-[#E4405F] border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <FaInstagram className="h-8 w-8 text-[#E4405F]" />
+              )}
             </button>
           </div>
 
